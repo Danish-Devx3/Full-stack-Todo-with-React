@@ -10,6 +10,6 @@ const updateTodo = zod.object({
 })
 
 module.export = {
-    createTodo: createTodo,
-    updateTodo: updateTodo
+    createTodo,
+    updateTodo
 }

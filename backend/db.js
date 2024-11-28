@@ -1,7 +1,5 @@
 const mongoose = require('mongoose')
-const { string } = require('zod')
-
-mongoose.connect('mongodb://localhost:27017/todo')
+mongoose.connect('mongodb://localhost:27017/app')
 
 const todoSchema = mongoose.Schema({
     title: String,
@@ -9,7 +7,7 @@ const todoSchema = mongoose.Schema({
     completed: Boolean
 })
 
-const todo = mongoose.model('todos', todoSchema);
+const todo = mongoose.model('todo', todoSchema);
 
 module.exports = {
     todo
