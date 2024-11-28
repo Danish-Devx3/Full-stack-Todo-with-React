@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -9,6 +9,7 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [value, setValue] = useState(0)
   const [result, setresult] = useState(0)
+  const [count, setCount] = useState(0)
   // useEffect(() => {
   //   fetch('http://localhost:3000/todos')
   //   .then(async (res)=>{
@@ -18,25 +19,34 @@ function App() {
     
   // }, [])
   
-  function calculate(){
-    let sum = 0
-    for(let i=1;i<=value;i++){
-      sum = sum+i
-      setresult(sum)
-      // console.log(sum)
+
+  
+  let sum = useMemo(()=>{
+
+    let res = 0
+    for(let i=1; i<=value; i++){
+      res= res+i
+      
+      console.log(res)
     }
-  }
+    return res
+  },[value])
+  
 
  
   return (
     <>
-    <input value={value} onChange={(e)=>{setValue(e.target.value)}} type="number" />
-    <h2>sum of {result}</h2>
-    <button onClick={()=>calculate()}>click</button>
+    <input onChange={(e)=>{setValue(e.target.value)}} type="number" />
+    <h2>sum of {sum}</h2>
+    <Btn setCount={setCount} count={count}/>
     {/* <CreateTodo/>
     <Todos todos={todos} /> */}
     </>
   )
 }
 
+function Btn({setCount, count}){
+
+  return <button onClick={()=>setCount(e=>e+1)}>couter {count}</button>
+}
 export default App
