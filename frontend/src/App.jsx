@@ -1,52 +1,45 @@
-import { useEffect, useMemo, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import CreateTodo from './components/CreateTodo'
-import { Todos } from './components/Todos'
+// 
 
-function App() {
-  const [todos, setTodos] = useState([]);
-  const [value, setValue] = useState(0)
-  const [result, setresult] = useState(0)
-  const [count, setCount] = useState(0)
-  // useEffect(() => {
-  //   fetch('http://localhost:3000/todos')
-  //   .then(async (res)=>{
-  //     const json = await res.json();
-  //     await setTodos(json)
-  //   })
-    
-  // }, [])
-  
+import React from 'react'
+import { RecoilRoot, useRecoilValue, useSetRecoilState } from 'recoil'
+import { CountAtom } from './Store/Atoms/CountAtom'
 
-  
-  let sum = useMemo(()=>{
-
-    let res = 0
-    for(let i=1; i<=value; i++){
-      res= res+i
-      
-      console.log(res)
-    }
-    return res
-  },[value])
-  
-
- 
+const App = () => {
   return (
-    <>
-    <input onChange={(e)=>{setValue(e.target.value)}} type="number" />
-    <h2>sum of {sum}</h2>
-    <Btn setCount={setCount} count={count}/>
-    {/* <CreateTodo/>
-    <Todos todos={todos} /> */}
-    </>
+    <div>
+      <RecoilRoot>
+        <CountRenderer/>
+        <ButtonRenderer/>
+        <CheckNum/>
+      </RecoilRoot>
+    </div>
   )
 }
 
-function Btn({setCount, count}){
-
-  return <button onClick={()=>setCount(e=>e+1)}>couter {count}</button>
+const CountRenderer = () =>{
+  const count = useRecoilValue(CountAtom);
+  return <div>
+    {count}
+  </div>
 }
+
+function ButtonRenderer(){
+  const setCount = useSetRecoilState(CountAtom);
+  function UpdateValue(){
+    return setCount(c=>c+1)
+  }
+  return <button onClick={UpdateValue}>
+    Update
+  </button>
+}
+
+function CheckNum(){
+  const count = useRecoilValue(CountAtom);
+  console.log(count)
+  
+  return <div>
+    {count%2==0?'Its even':'Its odd'}
+  </div>
+}
+
 export default App
